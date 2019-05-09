@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "483876277999",
+    "firebase_url": "https://be-1f59e.firebaseio.com",
+    "project_id": "be-1f59e",
+    "storage_bucket": "be-1f59e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:483876277999:android:30a1deecb4f89ef2",
+        "android_client_info": {
+          "package_name": "app.fyp.besecure"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "483876277999-vc2i7pc2d5q1duib42aubvf3f3p24kjt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuEbSJnQVh8HO7eKzamtzyBv_gbv1vXlQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "483876277999-vc2i7pc2d5q1duib42aubvf3f3p24kjt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
