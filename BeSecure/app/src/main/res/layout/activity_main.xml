@@ -33,36 +33,67 @@
                 app:cardElevation="5dp">
 
                 <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp">
 
                     <com.rengwuxian.materialedittext.MaterialEditText
-                        android:id="@+id/cardNoET"
+                        android:id="@+id/NameET"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/name"
+                        android:inputType="textAutoComplete"
+                        app:met_floatingLabel="highlight"
+                        app:met_floatingLabelText="Authority Name"
+                        app:met_floatingLabelTextColor="#fff"
+                        app:met_maxCharacters="100" />
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/phoneNoET"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/authority_no"
                         android:inputType="number"
-                        android:maxLength="11"
+                        android:maxLength="14"
+                        app:met_floatingLabel="highlight"
+                        app:met_floatingLabelText="Authority Mobile No."
+                        app:met_floatingLabelTextColor="#fff"
+                        app:met_maxCharacters="11" />
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/EmailET"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/email"
+                        android:inputType="textEmailAddress"
                         app:met_floatingLabel="highlight"
                         app:met_floatingLabelText="Authority No."
                         app:met_floatingLabelTextColor="#fff"
-                        app:met_maxCharacters="11" />
+                        app:met_maxCharacters="100" />
+                    <com.wang.avi.AVLoadingIndicatorView
+                        android:id="@+id/loader"
+                        android:visibility="gone"
+                        app:indicatorColor="#fff"
+                        android:layout_gravity="center"
+                        style="@style/AVLoadingIndicatorView.Large"
+                        app:indicatorName="BallClipRotateMultipleIndicator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <Button
+
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/addPhoneBtn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/userLoader"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="10dp"
+                        android:background="#373737"
+                        android:text="@string/add"
+                        android:textColor="#F9B642"
+                        android:textSize="18sp" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
-            <android.support.v7.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                app:cardCornerRadius="5dp"
-                app:cardElevation="5dp">
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Add" />
-            </android.support.v7.widget.CardView>
 
         </LinearLayout>
 

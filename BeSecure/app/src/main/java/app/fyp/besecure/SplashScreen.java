@@ -8,6 +8,7 @@ import android.widget.ImageView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.google.firebase.FirebaseApp;
 
 import me.wangyuwei.particleview.ParticleView;
 
@@ -17,6 +18,9 @@ public class SplashScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
+        FirebaseApp.initializeApp(this);
+
         setContentView(R.layout.activity_splash_screen);
         particleView=findViewById(R.id.particleView);
         image=findViewById(R.id.image);
