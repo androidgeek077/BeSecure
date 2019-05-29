@@ -1,5 +1,7 @@
 package app.fyp.besecure;
 
+import android.Manifest;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -17,6 +19,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.SmsManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -54,6 +57,7 @@ import app.fyp.besecure.PhoneModel.getLocationModel;
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
+    private static final int MY_PERMISSIONS_REQUEST_SEND_SMS =0 ;
 
     private GoogleMap mMap;
     protected LocationManager locationManager;
@@ -240,9 +244,40 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             startActivity(new Intent(MapsActivity.this, LoginActivity.class));
 
 
+        } else if(id==R.id.action_msg){
+            sendSMSMessage();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    protected void sendSMSMessage() {
+
+
+        PendingIntent pi = PendingIntent.getActivity(this, 0,
+                new Intent(this, MapsActivity.class), 0);
+        SmsManager sms = SmsManager.getDefault();
+        sms.sendTextMessage("+923138810941  ", null, "Im in danger please respond", pi, null);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_SEND_SMS: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    SmsManager smsManager = SmsManager.getDefault();
+                    smsManager.sendTextMessage("+923004626618", null, "I'm in danger please contact", null, null);
+                    Toast.makeText(getApplicationContext(), "SMS sent.",
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "SMS faild, please try again.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+            }
+        }
+
     }
 
 }
