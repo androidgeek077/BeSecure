@@ -10,4 +10,6 @@
     <string name="profile">Profile</string>
     <string name="select_image">select image</string>
     <string name="add">Add</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_authority_maps">Map</string>
 </resources>
