@@ -108,10 +108,10 @@ public class ProfileFragment extends Fragment {
 
                 Toast.makeText(getContext(), ""+dataSnapshot, Toast.LENGTH_SHORT).show();
 
-//                Username = dataSnapshot.child("name").getValue().toString();
-//                UserPhone = dataSnapshot.child("phone").getValue().toString();
-//                UserEmail = dataSnapshot.child("email").getValue().toString();
-//                UserImgUrl = dataSnapshot.child("imageUrl").getValue().toString();
+                Username = dataSnapshot.child("name").getValue().toString();
+                UserPhone = dataSnapshot.child("phone").getValue().toString();
+                UserEmail = dataSnapshot.child("email").getValue().toString();
+                UserImgUrl = dataSnapshot.child("imageUrl").getValue().toString();
 
                 mNameTV.setText(Username);
                 mPhoneTV.setText(UserPhone);

@@ -345,9 +345,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             startActivity(new Intent(MapsActivity.this, LoginActivity.class));
 
 
-        } else if (id == R.id.action_msg) {
-
-            sendSMSMessage();
         }
 
         return super.onOptionsItemSelected(item);

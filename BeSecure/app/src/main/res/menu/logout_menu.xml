@@ -10,8 +10,8 @@
         ></item>
     <item
         app:showAsAction="always"
-        android:icon="@drawable/ic_chat_bubbles"
-        android:id="@+id/action_msg"
-        android:title="Message"
+        android:icon="@drawable/ic_play_button"
+        android:id="@+id/action_vdo"
+        android:title="Video"
         ></item>
 </menu>

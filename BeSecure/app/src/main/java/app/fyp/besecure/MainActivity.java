@@ -71,8 +71,7 @@ public class MainActivity extends AppCompatActivity {
                             snackbar.setAction("Proceed", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    FragmentLoadinManagerNoBackStack(new AuthorityFragment());
-
+                                    startActivity(new Intent(MainActivity.this, NavDrawerActivity.class));
                                 }
                             });
                             snackbar.show();

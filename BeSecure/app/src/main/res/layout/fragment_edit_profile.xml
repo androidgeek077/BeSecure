@@ -38,10 +38,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="30dp"
+                        android:layout_marginTop="39dp"
                         android:layout_marginBottom="10dp"
-                        android:text="@string/profile"
+                        android:text="Edit Profile"
                         android:textSize="25sp" />
 
                     <android.support.design.widget.TextInputLayout
@@ -123,17 +122,18 @@
                         app:indicatorName="BallClipRotateMultipleIndicator"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
+
                     <Button
 
-                        android:layout_marginTop="10dp"
                         android:id="@+id/btn_a_signup"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/userLoader"
                         android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
                         android:background="#373737"
-                        android:text="@string/register"
+                        android:text="update"
                         android:textColor="#F9B642"
                         android:textSize="18sp" />
 

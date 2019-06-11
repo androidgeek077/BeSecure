@@ -22,6 +22,7 @@ import android.telephony.SmsManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,28 +30,40 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
+
 import app.fyp.besecure.Fragments.AuthorityFragment;
 import app.fyp.besecure.Fragments.ProfileFragment;
 import app.fyp.besecure.Fragments.UserMapFragment;
+import app.fyp.besecure.PhoneModel.AuthorityModel;
 import app.fyp.besecure.PhoneModel.ImageUploadModel;
 import app.fyp.besecure.PhoneModel.UserModel;
 
 public class NavDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private ArrayList<String> mAdmins=new ArrayList<>();
+    private ArrayList<String> mAdminsIds = new ArrayList<>();
+
+    private static final int CAMERA_REQUEST = 1888;
+    private ImageView imageView;
+    private static final int MY_CAMERA_PERMISSION_CODE = 100;
     private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 0;
     private StorageReference mProfilePicStorageReference;
     private static final int RC_PHOTO_PICKER = 1;
     private static final int REQUEST_TAKE_GALLERY_VIDEO = 1;
     private Uri selectedProfileImageUri;
     String UserId;
-    DatabaseReference databaseReference;
+    DatabaseReference databaseReference, MobileNoReference;
     FirebaseAuth auth;
     StorageReference profilePicRef;
     UserModel userModel;
@@ -67,13 +80,17 @@ public class NavDrawerActivity extends AppCompatActivity
 
         mProfilePicStorageReference = FirebaseStorage.getInstance().getReference().child("Pictures");
         databaseReference= FirebaseDatabase.getInstance().getReference().child("ImagesUrl");
+        MobileNoReference= FirebaseDatabase.getInstance().getReference().child("Authority");
 
         FragmentLoadinManagerNoBackStack(new UserMapFragment());
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getProfilePicture();
+                getAdmins();
+
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -113,8 +130,8 @@ public class NavDrawerActivity extends AppCompatActivity
         if (id == R.id.logout_item) {
             auth.signOut();
             startActivity(new Intent(NavDrawerActivity.this, LoginActivity.class));
-        } else if (id== R.id.action_msg){
-            sendSMSMessage();
+        } else if (id== R.id.action_vdo){
+            getVideo();
 
         }
 
@@ -137,14 +154,11 @@ public class NavDrawerActivity extends AppCompatActivity
             FragmentLoadinManagerNoBackStack(new AuthorityFragment());
 
 //            startActivity(new Intent(NavDrawerActivity.this, MainActivity.class));
-        } else if (id == R.id.nav_tools) {
+        } else if (id == R.id.nav_about) {
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+            Toast.makeText(this, "We cared for our generation", Toast.LENGTH_SHORT).show();
 
         }
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -161,13 +175,14 @@ public class NavDrawerActivity extends AppCompatActivity
 
     }
 
-    protected void sendSMSMessage() {
+    protected void sendSMSMessage(String mPhoneNo) {
 
 
         PendingIntent pi = PendingIntent.getActivity(this, 0,
                 new Intent(this, MapsActivity.class), 0);
         SmsManager sms = SmsManager.getDefault();
-        sms.sendTextMessage("+923004626618", null, "Im in danger please respond", pi, null);
+        sms.sendTextMessage(mPhoneNo, null, "Im in danger please respond", null, null);
+
     }
 
     @Override
@@ -189,7 +204,13 @@ public class NavDrawerActivity extends AppCompatActivity
         }
     }
 
+public void getVideo(){
+    Intent intent = new Intent();
+        intent.setType("video/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent,"Select Video"),REQUEST_TAKE_GALLERY_VIDEO);
 
+}
     public void getProfilePicture() {
 //        Intent intent = new Intent();
 //        intent.setType("video/*");
@@ -201,8 +222,12 @@ public class NavDrawerActivity extends AppCompatActivity
         intent.setType("image/*");
         intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
         startActivityForResult(Intent.createChooser(intent, "Complete action using"), RC_PHOTO_PICKER);
+//
+//        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+//        startActivityForResult(cameraIntent, CAMERA_REQUEST);
 
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -215,7 +240,7 @@ public class NavDrawerActivity extends AppCompatActivity
             profilePicRef.putFile(selectedProfileImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Toast.makeText(NavDrawerActivity.this, "Image uploaded successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NavDrawerActivity.this, "File uploaded successfully", Toast.LENGTH_SHORT).show();
                     profilePicRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
@@ -244,11 +269,35 @@ public class NavDrawerActivity extends AppCompatActivity
             @Override
             public void onComplete(@NonNull Task<Void> task) {
 
-
+                Toast.makeText(NavDrawerActivity.this, "File Url Saved Successfully", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+            }
+        });
+
+    }
+
+    private void getAdmins() {
+        mAdmins = new ArrayList<>();
+        MobileNoReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Iterable<DataSnapshot> adminsList = dataSnapshot.getChildren();
+                for (DataSnapshot admins : adminsList) {
+                    Toast.makeText(NavDrawerActivity.this, "message sent", Toast.LENGTH_SHORT).show();
+                    mAdminsIds.add(admins.getKey());
+                    AuthorityModel model = admins.getValue(AuthorityModel.class);
+                    mAdmins.add(model.getPhone());
+                    sendSMSMessage(model.getPhone());
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
     }
