@@ -80,7 +80,7 @@ public class AuthorityMapsActivity extends AppCompatActivity implements OnMapRea
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setTitle("Driver Current Location");
+        getSupportActionBar().setTitle("User's Location");
         mAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.activity_maps);
         mLatitude=findViewById(R.id.latitude);
@@ -125,8 +125,12 @@ public class AuthorityMapsActivity extends AppCompatActivity implements OnMapRea
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(32.078665, 72.68051999999999);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        LatLng sargodha = new LatLng(32.078665, 72.68051999999999);
+        LatLng rehman_plaza = new LatLng(32.076461, 72.678524);
+        LatLng kirana_bar = new LatLng(32.076422, 72.675826);
+        mMap.addMarker(new MarkerOptions().position(sargodha).title("Maaz").icon(BitmapDescriptorFactory.fromResource(R.drawable.boy)));
+        mMap.addMarker(new MarkerOptions().position(kirana_bar).title("Mishaal").icon(BitmapDescriptorFactory.fromResource(R.drawable.woman)));
+        mMap.addMarker(new MarkerOptions().position(rehman_plaza).title("Marker in Sydney"));
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(32.078665, 72.68051999999999), 15.0f));
     }
 
@@ -178,7 +182,7 @@ public class AuthorityMapsActivity extends AppCompatActivity implements OnMapRea
         AddLocation.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Toast.makeText(context, ""+dataSnapshot, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, ""+dataSnapshot, Toast.LENGTH_SHORT).show();
 //                latDouble = (Double) dataSnapshot.child("mLatitude").getValue();
 //                langDouble = (Double) dataSnapshot.child("mLongitude").getValue();
 //                LatAsStr=Double.toString(latDouble);
@@ -198,7 +202,7 @@ public class AuthorityMapsActivity extends AppCompatActivity implements OnMapRea
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.logout_menu, menu);
+        getMenuInflater().inflate(R.menu.authority_logout, menu);
         return true;
     }
 

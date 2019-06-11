@@ -184,15 +184,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
         setContentView(R.layout.activity_maps);
-        imageView = findViewById(R.id.capturedimg);
-        mOpenCamBtn = findViewById(R.id.TakeImgBtn);
-        mOpenCamBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dispatchTakePictureIntent();
-
-            }
-        });
 
 
 
