@@ -1,0 +1,175 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#D6D3D3"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="5dp"
+        android:background="#00969393"
+        app:cardBackgroundColor="#F3F5F5">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif"
+            android:text=" My Profile"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </android.support.v7.widget.CardView>
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profilepic"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp" />
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="5dp"
+        android:background="#B3B0B0"
+        app:cardBackgroundColor="@color/color_screen_background_white"
+        app:cardCornerRadius="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="0.3"
+                android:fontFamily="serif"
+                android:gravity="center"
+                android:text="Name"
+                android:textColor="@color/color_black"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="#BBB7B7" />
+
+
+            <TextView
+                android:id="@+id/nameTV"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="0.5"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:text="Name"
+                android:textColor="@color/color_black" />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="5dp"
+        android:background="#B3B0B0"
+        app:cardBackgroundColor="@color/color_screen_background_white"
+        app:cardCornerRadius="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="0.3"
+                android:fontFamily="serif"
+                android:gravity="center"
+                android:text="Contact"
+                android:textColor="@color/color_black"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="#BBB7B7" />
+
+
+            <TextView
+                android:id="@+id/contactTV"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="0.5"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:text="03004626618"
+                android:textColor="@color/color_black" />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="5dp"
+        android:background="#B3B0B0"
+        app:cardBackgroundColor="@color/color_screen_background_white"
+        app:cardCornerRadius="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <TextView
+
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="0.3"
+                android:fontFamily="serif"
+                android:gravity="center"
+                android:text="@string/email"
+                android:textColor="@color/color_black"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="#BBB7B7" />
+
+
+            <TextView
+                android:id="@+id/emailTV"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="0.5"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:text="example@gmail.com"
+                android:textColor="@color/color_black" />
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+    <Button
+        android:id="@+id/edit_profile"
+        android:layout_marginTop="10dp"
+        android:text="Edit Profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

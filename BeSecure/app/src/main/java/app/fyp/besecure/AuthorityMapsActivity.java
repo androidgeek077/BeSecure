@@ -73,28 +73,23 @@ public class AuthorityMapsActivity extends AppCompatActivity implements OnMapRea
 
 
     TextView mLatitude, mLongitude;
-
-
-
-
+    private String LatAsStr;
+    private String LngAsStr;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setTitle("Driver Current Location");
-
         mAuth = FirebaseAuth.getInstance();
-
         setContentView(R.layout.activity_maps);
         mLatitude=findViewById(R.id.latitude);
         mLongitude=findViewById(R.id.longitude);
 
 
         AddLocation= FirebaseDatabase.getInstance().getReference("Locations");
-
         getDrivers();
-
+//        Toast.makeText(context, LatAsStr, Toast.LENGTH_SHORT).show();
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -139,26 +134,9 @@ public class AuthorityMapsActivity extends AppCompatActivity implements OnMapRea
     @Override
     public void onLocationChanged(Location location) {
 
-        getLocationModel model=new getLocationModel(location.getLatitude(), location.getLongitude());
-
-        AddLocation.setValue(model).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-
-            @Override
-            public void onFailure(@NonNull Exception e) {
-
-            }
-        });
-
-
         LatLng currentLocation=new LatLng(location.getLatitude(), location.getLongitude());
         mMap.addMarker(new MarkerOptions().position(currentLocation).title("Driver position"));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latDouble, langDouble), 15.0f));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latDouble, langDouble), 8.0f));
     }
 
 
@@ -200,12 +178,11 @@ public class AuthorityMapsActivity extends AppCompatActivity implements OnMapRea
         AddLocation.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                latDouble = (Double) dataSnapshot.child("mLatitude").getValue();
-                langDouble = (Double) dataSnapshot.child("mLongitude").getValue();
-                String str=Double.toString(latDouble);
-                String str1=Double.toString(langDouble);
-                mLatitude.setText(str);
-                mLongitude.setText(str1);
+                Toast.makeText(context, ""+dataSnapshot, Toast.LENGTH_SHORT).show();
+//                latDouble = (Double) dataSnapshot.child("mLatitude").getValue();
+//                langDouble = (Double) dataSnapshot.child("mLongitude").getValue();
+//                LatAsStr=Double.toString(latDouble);
+//                LngAsStr=Double.toString(langDouble);
             }
 
             @Override

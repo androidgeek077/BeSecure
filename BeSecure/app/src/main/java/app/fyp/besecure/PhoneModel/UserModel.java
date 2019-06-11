@@ -8,10 +8,15 @@ public class UserModel {
     private String password;
     private String phone;
     private String type;
-
-
-
     private String imageUrl;
+
+    public UserModel(String name, String email, String phone, String imageUrl) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.imageUrl = imageUrl;
+    }
+
 
     public UserModel(String name, String email, String password, String phone, String type, String imageUrl) {
         this.name = name;

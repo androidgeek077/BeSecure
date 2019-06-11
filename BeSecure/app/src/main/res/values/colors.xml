@@ -3,4 +3,14 @@
     <color name="colorPrimary">#FF9800</color>
     <color name="colorPrimaryDark">#FFC107</color>
     <color name="colorAccent">#FFC107</color>
+
+    <color name="color_screen_background">#242222</color>
+    <color name="color_screen_background_white">#F8F8F8</color>
+    <color name="color_white">#fff</color>
+    <color name="color_white_shade">#EBE5E5</color>
+    <color name="color_btn_background">#FFD332</color>
+    <color name="bgBottomNavigation">#000</color>
+    <color name="bgDisplayDateTime">#5C5555</color>
+    <color name="color_black">#000</color>
+    <color name="jazz_red">#780103</color>
 </resources>

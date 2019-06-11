@@ -1,0 +1,11 @@
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_vw_catagory"
+        android:text="Catagory Fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

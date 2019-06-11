@@ -3,6 +3,9 @@ package app.fyp.besecure;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.wang.avi.AVLoadingIndicatorView;
 
+import app.fyp.besecure.Fragments.AuthorityFragment;
 import app.fyp.besecure.PhoneModel.AuthorityModel;
 
 public class MainActivity extends AppCompatActivity {
@@ -67,8 +71,8 @@ public class MainActivity extends AppCompatActivity {
                             snackbar.setAction("Proceed", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    Intent intent = new Intent(MainActivity.this, UserProfileActivity.class);
-                                    startActivity(intent);
+                                    FragmentLoadinManagerNoBackStack(new AuthorityFragment());
+
                                 }
                             });
                             snackbar.show();
@@ -89,5 +93,16 @@ public class MainActivity extends AppCompatActivity {
         mNameStr=mNameET.getText().toString();
         mEmailStr=mEmailET.getText().toString();
         mPhoneNoStr=mPhoneNoET.getText().toString();
+    }
+
+    public void FragmentLoadinManagerNoBackStack(Fragment fragment) {
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragmentContainer, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+
+
     }
 }

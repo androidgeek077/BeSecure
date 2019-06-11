@@ -2,26 +2,26 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Android-Book-Gallery-Firebase" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/ChatApp/ChatApp" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/MahCard" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/MechaBotApp/MechaBot" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/SixPackApp" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/TechieDesi" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/bus-tracking" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/bustrackerapp" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/ecomemrceapp" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/facebook-login" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/gourduapp" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/infosys-app" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/infosysstudentportal" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/jazz-vms" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/new Repo of Prixis/praxisapp" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/praxisFashionApp" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/questapp" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/salepurchasesystem" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/sms-parsing" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/smsapp" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/usm-app" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Android-Book-Gallery-Firebase" vcs="" />
+    <mapping directory="$PROJECT_DIR$/ChatApp/ChatApp" vcs="" />
+    <mapping directory="$PROJECT_DIR$/MahCard" vcs="" />
+    <mapping directory="$PROJECT_DIR$/MechaBotApp/MechaBot" vcs="" />
+    <mapping directory="$PROJECT_DIR$/SixPackApp" vcs="" />
+    <mapping directory="$PROJECT_DIR$/TechieDesi" vcs="" />
+    <mapping directory="$PROJECT_DIR$/bus-tracking" vcs="" />
+    <mapping directory="$PROJECT_DIR$/bustrackerapp" vcs="" />
+    <mapping directory="$PROJECT_DIR$/ecomemrceapp" vcs="" />
+    <mapping directory="$PROJECT_DIR$/facebook-login" vcs="" />
+    <mapping directory="$PROJECT_DIR$/gourduapp" vcs="" />
+    <mapping directory="$PROJECT_DIR$/infosys-app" vcs="" />
+    <mapping directory="$PROJECT_DIR$/infosysstudentportal" vcs="" />
+    <mapping directory="$PROJECT_DIR$/jazz-vms" vcs="" />
+    <mapping directory="$PROJECT_DIR$/new Repo of Prixis/praxisapp" vcs="" />
+    <mapping directory="$PROJECT_DIR$/praxisFashionApp" vcs="" />
+    <mapping directory="$PROJECT_DIR$/questapp" vcs="" />
+    <mapping directory="$PROJECT_DIR$/salepurchasesystem" vcs="" />
+    <mapping directory="$PROJECT_DIR$/sms-parsing" vcs="" />
+    <mapping directory="$PROJECT_DIR$/smsapp" vcs="" />
+    <mapping directory="$PROJECT_DIR$/usm-app" vcs="" />
   </component>
 </project>

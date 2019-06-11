@@ -25,6 +25,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -66,6 +67,7 @@ public class UserProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
+        auth=FirebaseAuth.getInstance();
         mProfilePicStorageReference = FirebaseStorage.getInstance().getReference().child("ProfilePictures");
         databaseReference = FirebaseDatabase.getInstance().getReference("User");
         loader = findViewById(R.id.userLoader);
@@ -89,7 +91,6 @@ public class UserProfileActivity extends AppCompatActivity {
         mBtnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loader.show();
                 mStrASName = mEdtTxtASName.getText().toString();
                 mStrASEmail = mEdtTxtASEmail.getText().toString();
                 mStrASPassword = mEdtTxtASPassword.getText().toString();
@@ -118,22 +119,37 @@ public class UserProfileActivity extends AppCompatActivity {
                 } else if (!(mEdtTxtASPhone.length() == 11)) {
                     mEdtTxtASPhone.setError("Phone Number Must Be 11 Digits Long");
                 } else {
-
-                    profilePicRef = mProfilePicStorageReference.child(selectedProfileImageUri.getLastPathSegment());
-                    profilePicRef.putFile(selectedProfileImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    loader.show();
+                    auth.createUserWithEmailAndPassword(mStrASEmail, mStrASPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()){
+                                profilePicRef = mProfilePicStorageReference.child(selectedProfileImageUri.getLastPathSegment());
+                                profilePicRef.putFile(selectedProfileImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                            profilePicRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    downloadUri = uri.toString();
-                                    uploadProduct(downloadUri);
-                                    loader.setVisibility(View.GONE);
-                                }
-                            });
+                                        profilePicRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                            @Override
+                                            public void onSuccess(Uri uri) {
+                                                downloadUri = uri.toString();
+                                                uploadProduct(downloadUri);
+                                                loader.setVisibility(View.GONE);
+                                            }
+                                        });
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(UserProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
                         }
                     });
+
+
+
 
                 }
 
@@ -166,7 +182,7 @@ public class UserProfileActivity extends AppCompatActivity {
     public void uploadProduct(String ImageUrl) {
 
         userModel = new UserModel(mStrASName, mStrASEmail, mStrASPassword, mStrASPhone, "user", ImageUrl);
-        databaseReference.push().setValue(userModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+        databaseReference.child(FirebaseAuth.getInstance().getUid()).setValue(userModel).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 mEdtTxtASName.getText().clear();
