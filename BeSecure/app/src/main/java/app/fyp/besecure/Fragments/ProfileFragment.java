@@ -106,7 +106,6 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                Toast.makeText(getContext(), ""+dataSnapshot, Toast.LENGTH_SHORT).show();
 
                 Username = dataSnapshot.child("name").getValue().toString();
                 UserPhone = dataSnapshot.child("phone").getValue().toString();

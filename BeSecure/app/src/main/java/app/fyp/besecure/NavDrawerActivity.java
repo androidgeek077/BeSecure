@@ -4,12 +4,12 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -19,12 +19,16 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.SmsManager;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -47,11 +51,22 @@ import app.fyp.besecure.Fragments.UserMapFragment;
 import app.fyp.besecure.PhoneModel.AuthorityModel;
 import app.fyp.besecure.PhoneModel.ImageUploadModel;
 import app.fyp.besecure.PhoneModel.UserModel;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class NavDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private ArrayList<String> mAdmins=new ArrayList<>();
+    private TextView mNameTV,mPhoneTV, mEmailTV;
+    CircleImageView mProfilePic;
+    private String Username, UserPhone, UserEmail, UserImgUrl;
+    ArrayList mLocationList, mLongList;
+    Button mEditProfile;
+
+    DatabaseReference UserRef;
+    DatabaseReference ProfileReference;
+
+    int count = 0;
+    private ArrayList<String> mAdmins = new ArrayList<>();
     private ArrayList<String> mAdminsIds = new ArrayList<>();
 
     private static final int CAMERA_REQUEST = 1888;
@@ -68,6 +83,7 @@ public class NavDrawerActivity extends AppCompatActivity
     StorageReference profilePicRef;
     UserModel userModel;
     ImageUploadModel imageUploadModel;
+    private ImageView mImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,21 +91,25 @@ public class NavDrawerActivity extends AppCompatActivity
         setContentView(R.layout.activity_nav_drawer);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        auth=FirebaseAuth.getInstance();
-        UserId=FirebaseAuth.getInstance().getUid();
-
+        auth = FirebaseAuth.getInstance();
+        UserId = FirebaseAuth.getInstance().getUid();
+        mImageView=findViewById(R.id.NavHeaderimageView);
+        mNameTV=findViewById(R.id.navHeaderNameTV);
+        mPhoneTV=findViewById(R.id.NavHeaderPhonetextView);
         mProfilePicStorageReference = FirebaseStorage.getInstance().getReference().child("Pictures");
-        databaseReference= FirebaseDatabase.getInstance().getReference().child("ImagesUrl");
-        MobileNoReference= FirebaseDatabase.getInstance().getReference().child("Authority");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("ImagesUrl");
+        MobileNoReference = FirebaseDatabase.getInstance().getReference().child("Authority");
+        UserRef= FirebaseDatabase.getInstance().getReference().child("User");
 
         FragmentLoadinManagerNoBackStack(new UserMapFragment());
+
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getProfilePicture();
-                getAdmins();
+                SendSmsToAll();
 
             }
         });
@@ -100,6 +120,7 @@ public class NavDrawerActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
     }
 
     @Override
@@ -130,7 +151,7 @@ public class NavDrawerActivity extends AppCompatActivity
         if (id == R.id.logout_item) {
             auth.signOut();
             startActivity(new Intent(NavDrawerActivity.this, LoginActivity.class));
-        } else if (id== R.id.action_vdo){
+        } else if (id == R.id.action_vdo) {
             getVideo();
 
         }
@@ -148,6 +169,8 @@ public class NavDrawerActivity extends AppCompatActivity
             // Handle the camera action
             FragmentLoadinManagerNoBackStack(new UserMapFragment());
         } else if (id == R.id.nav_profile) {
+            getStudentInfo();
+
             FragmentLoadinManagerNoBackStack(new ProfileFragment());
 
         } else if (id == R.id.nav_add_authority) {
@@ -181,7 +204,7 @@ public class NavDrawerActivity extends AppCompatActivity
         PendingIntent pi = PendingIntent.getActivity(this, 0,
                 new Intent(this, MapsActivity.class), 0);
         SmsManager sms = SmsManager.getDefault();
-        sms.sendTextMessage(mPhoneNo, null, "Im in danger please respond", null, null);
+        sms.sendTextMessage(mPhoneNo, null, "Alert! Hey, I'm in trouble situation please respond quickly and track my location on BeSecure to help me.", null, null);
 
     }
 
@@ -192,7 +215,7 @@ public class NavDrawerActivity extends AppCompatActivity
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     SmsManager smsManager = SmsManager.getDefault();
-                    smsManager.sendTextMessage("+923004626618", null, "I'm in danger please contact", null, null);
+                    smsManager.sendTextMessage("+923004626618", null, "Alert! Hey, I'm in trouble situation please respond quickly and track my location on BeSecure to help me.", null, null);
                     Toast.makeText(getApplicationContext(), "SMS sent.",
                             Toast.LENGTH_LONG).show();
                 } else {
@@ -204,13 +227,14 @@ public class NavDrawerActivity extends AppCompatActivity
         }
     }
 
-public void getVideo(){
-    Intent intent = new Intent();
+    public void getVideo() {
+        Intent intent = new Intent();
         intent.setType("video/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent,"Select Video"),REQUEST_TAKE_GALLERY_VIDEO);
+        startActivityForResult(Intent.createChooser(intent, "Select Video"), REQUEST_TAKE_GALLERY_VIDEO);
 
-}
+    }
+
     public void getProfilePicture() {
 //        Intent intent = new Intent();
 //        intent.setType("video/*");
@@ -264,7 +288,7 @@ public void getVideo(){
 
     public void uploadProduct(String ImageUrl) {
 
-        imageUploadModel = new ImageUploadModel(ImageUrl,UserId);
+        imageUploadModel = new ImageUploadModel(ImageUrl, UserId);
         databaseReference.child(FirebaseAuth.getInstance().getUid()).push().setValue(imageUploadModel).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -279,19 +303,18 @@ public void getVideo(){
 
     }
 
-    private void getAdmins() {
+    private void SendSmsToAll() {
         mAdmins = new ArrayList<>();
         MobileNoReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Iterable<DataSnapshot> adminsList = dataSnapshot.getChildren();
                 for (DataSnapshot admins : adminsList) {
-                    Toast.makeText(NavDrawerActivity.this, "message sent", Toast.LENGTH_SHORT).show();
                     mAdminsIds.add(admins.getKey());
                     AuthorityModel model = admins.getValue(AuthorityModel.class);
                     mAdmins.add(model.getPhone());
-                    sendSMSMessage(model.getPhone());
 
+                    sendSMSMessage(model.getPhone());
                 }
             }
 
@@ -300,6 +323,65 @@ public void getVideo(){
 
             }
         });
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_MENU:
+                Toast.makeText(this, "Menu key pressed", Toast.LENGTH_SHORT).show();
+                return true;
+            case KeyEvent.KEYCODE_SEARCH:
+                Toast.makeText(this, "Search key pressed", Toast.LENGTH_SHORT).show();
+                return true;
+            case KeyEvent.KEYCODE_BACK:
+                onBackPressed();
+                return true;
+            case KeyEvent.KEYCODE_VOLUME_UP:
+                event.startTracking();
+                return true;
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+                count = ++count;
+                if (count % 3 == 0) {
+                    SendSmsToAll();
+                }
+//                Toast.makeText(this,""+count, Toast.LENGTH_SHORT).show();
+                return false;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private void getStudentInfo() {
+//        mLocationList = new ArrayList<>();
+//        mLongList = new ArrayList<>();
+        UserRef.child(FirebaseAuth.getInstance().getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+
+                Username = dataSnapshot.child("name").getValue().toString();
+                UserPhone = dataSnapshot.child("phone").getValue().toString();
+                UserEmail = dataSnapshot.child("email").getValue().toString();
+                UserImgUrl = dataSnapshot.child("imageUrl").getValue().toString();
+//                Toast.makeText(NavDrawerActivity.this, Username, Toast.LENGTH_SHORT).show();
+//                mNameTV.setText(Username);
+//                mPhoneTV.setText(UserPhone);
+//                mEmailTV.setText(UserEmail);
+//                Glide.with(NavDrawerActivity.this)
+//                        .load(UserImgUrl)
+//                        .into(mImageView);
+
+//
+//
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
     }
 }
 
