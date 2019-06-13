@@ -308,8 +308,8 @@ public class NavDrawerActivity extends AppCompatActivity
         MobileNoReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Iterable<DataSnapshot> adminsList = dataSnapshot.getChildren();
-                for (DataSnapshot admins : adminsList) {
+                Iterable<DataSnapshot> phoneNoList = dataSnapshot.getChildren();
+                for (DataSnapshot admins : phoneNoList) {
                     mAdminsIds.add(admins.getKey());
                     AuthorityModel model = admins.getValue(AuthorityModel.class);
                     mAdmins.add(model.getPhone());

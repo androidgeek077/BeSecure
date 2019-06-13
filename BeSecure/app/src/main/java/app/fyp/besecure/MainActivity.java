@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     MaterialEditText mNameET, mEmailET, mPhoneNoET;
-    Button mPhoneBtn;
+    Button mAddBtn;
     private DatabaseReference databaseReference;
     private AVLoadingIndicatorView loader;
 
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         loader=findViewById(R.id.loader);
 
-        mPhoneBtn = findViewById(R.id.addPhoneBtn);
+        mAddBtn = findViewById(R.id.addPhoneBtn);
         mNameET = findViewById(R.id.NameET);
         mEmailET = findViewById(R.id.EmailET);
         mPhoneNoET = findViewById(R.id.phoneNoET);
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Authority");
 
-        mPhoneBtn.setOnClickListener(new View.OnClickListener() {
+        mAddBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 TextToString();

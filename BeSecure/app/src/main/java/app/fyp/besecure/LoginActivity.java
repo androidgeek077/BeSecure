@@ -35,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         auth=FirebaseAuth.getInstance();
 
         if (null != auth.getCurrentUser()) {
-            startActivity(new Intent(LoginActivity.this, AuthorityNavDrawerActivity.class));
+            startActivity(new Intent(LoginActivity.this, NavDrawerActivity.class));
             finish();
         }
     }
@@ -80,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 loading.setVisibility(View.GONE);
-                                startActivity(new Intent(LoginActivity.this, AuthorityNavDrawerActivity.class));
+                                startActivity(new Intent(LoginActivity.this, NavDrawerActivity.class));
                             }
 
                         }
